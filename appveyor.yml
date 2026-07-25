@@ -1,0 +1,56 @@
+# version format
+version: 0.1.{build}
+
+environment:
+  #GIT_TRACE: 1
+  # NOTE: these secure tokens were copied from IdentityCommand.DPA's appveyor.yml as placeholders and are NOT
+  # valid for this project. Regenerate each one from this repo's own AppVeyor project settings
+  # (Settings > Environment) before enabling CI/deploy.
+  access_token:
+    secure: REPLACE_ME
+  psgallery_key:
+    secure: REPLACE_ME
+  coveralls_key:
+    secure: REPLACE_ME
+  github_email:
+    secure: REPLACE_ME
+  CODECOV_TOKEN:
+    secure: REPLACE_ME
+
+skip_tags: true
+
+skip_commits:
+  files:
+    - docs\*
+    - .github\*
+    - .vscode\*
+    - README.md
+    - LICENSE
+    - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - ISSUE_TEMPLATE.md
+    - PULL_REQUEST_TEMPLATE.md
+    - appveyor.yml
+    - CHANGELOG.md
+  message: /update readme.*|update version.*|update appveyor.*/
+
+only_commits:
+  files:
+    - build\
+    - IdentityCommand.DiscoveryMgmt\
+    - Tests\
+
+image: Visual Studio 2019
+
+install:
+  - pwsh.exe -File .\build\install.ps1
+
+build_script:
+  - pwsh.exe -File .\build\build.ps1
+
+#test_script:
+  - pwsh.exe -File .\build\test.ps1
+
+#deploy_script:
+  - pwsh.exe -File .\build\deploy-psgallery.ps1
+  - pwsh.exe -File .\build\deploy-github.ps1
