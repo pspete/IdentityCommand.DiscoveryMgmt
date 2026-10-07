@@ -16,36 +16,30 @@ param(
 
 )
 
-$Module = Get-Module -Name IdentityCommand
+#Copy IdentityCommand's private helpers into this module first: this module's own files call them,
+#and the argument completer registrations do so at import time.
+#Each copy is created from the function definition, so it runs in this module's scope and uses this
+#module's $ISPSSSession, whether IdentityCommand loaded from source or from its combined psm1.
+#Resolve a single IdentityCommand module: with more than one version loaded, Get-Module returns
+#an array.
+$Module = Get-Module -Name IdentityCommand | Sort-Object Version -Descending | Select-Object -First 1
 
-#Get function files
-Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
+if ($null -eq $Module) {
+    throw 'The IdentityCommand module is not loaded. Import IdentityCommand and try again.'
+}
+
+& $Module { Get-ChildItem -Path Function: } |
+
+    Where-Object { $_.ModuleName -eq $Module.Name -and -not $Module.ExportedFunctions.ContainsKey($_.Name) } |
 
     ForEach-Object {
 
-        if ($DotSourceModule) {
-            . $_.FullName
-        } else {
-            $ExecutionContext.InvokeCommand.InvokeScript(
-                $false,
-                (
-                    [scriptblock]::Create(
-                        [io.file]::ReadAllText(
-                            $_.FullName,
-                            [Text.Encoding]::UTF8
-                        )
-                    )
-                ),
-                $null,
-                $null
-            )
-
-        }
+        . ([scriptblock]::Create("function $($_.Name) {$($_.Definition)}"))
 
     }
 
-$Module = Get-Module -Name IdentityCommand
-Get-ChildItem (Join-Path $(Split-Path $Module.path) Private) |
+#Get function files
+Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
 
     ForEach-Object {
 
