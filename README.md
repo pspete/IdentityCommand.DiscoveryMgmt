@@ -2,6 +2,22 @@
 
 **IdentityCommand.DiscoveryMgmt** is a PowerShell module that provides a set of easy-to-use commands, allowing you to interact with the API for **CyberArk Privilege Cloud Discovery** (scan definitions, scan resources, scan instances, remediation rule sets, and discovered accounts) from within the PowerShell environment.
 
+| Main Branch              | CodeFactor                 | Coverage                     | PowerShell Gallery        | License                      |
+| ------------------------ | -------------------------- | ---------------------------- | ------------------------- | ---------------------------- |
+| [![build][]][build-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![psgallery][]][ps-site] | [![license][]][license-link] |
+
+[build]: https://github.com/pspete/IdentityCommand.DiscoveryMgmt/actions/workflows/ci.yml/badge.svg?branch=main&event=push
+[build-site]: https://github.com/pspete/IdentityCommand.DiscoveryMgmt/actions/workflows/ci.yml?query=branch%3Amain
+[psgallery]: https://img.shields.io/powershellgallery/v/IdentityCommand.DiscoveryMgmt.svg
+[ps-site]: https://www.powershellgallery.com/packages/IdentityCommand.DiscoveryMgmt
+[downloads]: https://img.shields.io/powershellgallery/dt/IdentityCommand.DiscoveryMgmt.svg?color=blue
+[cf-site]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.DiscoveryMgmt
+[codefactor]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.DiscoveryMgmt/badge
+[codecov]: https://codecov.io/gh/pspete/IdentityCommand.DiscoveryMgmt/branch/main/graph/badge.svg
+[codecov-link]: https://codecov.io/gh/pspete/IdentityCommand.DiscoveryMgmt
+[license]: https://img.shields.io/github/license/pspete/IdentityCommand.DiscoveryMgmt.svg
+[license-link]: https://github.com/pspete/IdentityCommand.DiscoveryMgmt/blob/main/LICENSE
+
 ## Background
 
 CyberArk's PrivilegeCloud Discovery feature is served across two SaaS hosts:

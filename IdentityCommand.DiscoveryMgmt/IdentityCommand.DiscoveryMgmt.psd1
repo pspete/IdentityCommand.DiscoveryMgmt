@@ -12,7 +12,7 @@
     RootModule        = 'IdentityCommand.DiscoveryMgmt.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.1.0'
+    ModuleVersion     = '0.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -52,7 +52,7 @@
 
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules   = @(
-        @{ModuleName = 'IdentityCommand'; GUID = 'f6bb2bdf-0c53-443f-be07-3c25264a09b1'; ModuleVersion = '0.4.86' }
+        @{ModuleName = 'IdentityCommand'; GUID = 'f6bb2bdf-0c53-443f-be07-3c25264a09b1'; ModuleVersion = '1.0.1' }
     )
 
     # Assemblies that must be loaded prior to importing this module
