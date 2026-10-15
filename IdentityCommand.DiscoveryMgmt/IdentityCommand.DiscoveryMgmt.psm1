@@ -68,11 +68,11 @@ if ($null -eq $Module) {
 
 # Script scope session object for session data
 $ISPSSSession = [ordered]@{
-    discoverymgmt_url  = $null
-    privilegecloud_url = $null
+    tenant_url         = $null
     User               = $null
     TenantId           = $null
     SessionId          = $null
+    Subdomain          = $null
     WebSession         = $null
     StartTime          = $null
     ElapsedTime        = $null
@@ -84,3 +84,6 @@ $ISPSSSession = [ordered]@{
 } | Add-CustomType -Type IdCmd.Session
 
 New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+
+#Platform discovery key of the service, used to resolve the service URL from the IdentityCommand session
+New-Variable -Name ServiceKey -Value 'dms' -Scope Script -Force

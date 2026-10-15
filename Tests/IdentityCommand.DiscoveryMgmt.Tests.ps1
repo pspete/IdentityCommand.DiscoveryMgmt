@@ -70,6 +70,8 @@ Describe 'Module' -Tag 'Consistency' {
 			'ConvertTo-QueryString'
 			'Get-Parameter'
 			'Invoke-IDRestMethod'
+			'Resolve-RequestUrl'
+			'Resolve-ServiceUrl'
 		) {
 
 			InModuleScope 'IdentityCommand.DiscoveryMgmt' -Parameters @{ Name = $_ } {

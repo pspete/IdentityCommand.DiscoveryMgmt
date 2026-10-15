@@ -21,8 +21,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         $Script:RequestBody = $null
         $ISPSSSession = [ordered]@{
-            discoverymgmt_url  = 'https://sometenant.discoverymgmt.cyberark.cloud'
-            privilegecloud_url = 'https://sometenant.privilegecloud.cyberark.cloud'
+            tenant_url         = 'https://sometenant.discoverymgmt.cyberark.cloud'
             User               = $null
             WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
             StartTime          = $null
@@ -32,7 +31,10 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             LastCommandResults = $null
         }
 
-        New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+        InModuleScope $ModuleName -Parameters @{ Session = $ISPSSSession } {
+            param($Session)
+            New-Variable -Name ISPSSSession -Value $Session -Scope Script -Force
+        }
 
     }
 
@@ -91,7 +93,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:ISPSSSession.discoverymgmt_url)/api/discovery-scans/resources/resource-id-999"
+                    $URI -eq "$($Script:ISPSSSession.tenant_url)/api/discovery-scans/resources/resource-id-999"
 
                 } -Times 1 -Exactly -Scope It
 

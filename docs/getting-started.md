@@ -26,10 +26,17 @@ The module requires authentication to the Idira Identity platform using the `Ide
 
 The `IdentityCommand` module must be installed and available in order to use `IdentityCommand.DiscoveryMgmt`.
 
-After authentication to an Identity tenant using the `IdentityCommand` module, the `Connect-DMTenant` command is used to initialise the session for module operations against the Discovery services:
+Authenticate with the `IdentityCommand` module, using `New-IDSession` (interactive user, including any MFA challenges) or `New-IDPlatformToken` (non-interactive service user). Commands find the Discovery Management and Privilege Cloud service urls from the Identity session on first use - no separate connection step is needed:
 
 ```powershell
-Connect-DMTenant -subdomain sometenant
+# Interactive user authentication
+New-IDSession -subdomain sometenant -Credential $Credential
+
+# Or non-interactive service user authentication via an OAuth platform token
+New-IDPlatformToken -subdomain sometenant -Credential $ServiceUserCredential
+
+Get-DMDiscoveryScanDefinition
 ```
 
-This targets `https://sometenant.discoverymgmt.cyberark.cloud` and `https://sometenant.privilegecloud.cyberark.cloud` for subsequent module operations.
+Commands follow the current Identity session: a later `New-IDSession` or `New-IDPlatformToken` is used by the next command, and after `Close-IDSession` commands fail until you authenticate again.
+

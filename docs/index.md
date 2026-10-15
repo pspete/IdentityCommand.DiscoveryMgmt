@@ -14,12 +14,13 @@ It builds on [IdentityCommand]({{ '/' | relative_url }}) for authentication - se
 
 ## Background
 
-Idira's PrivilegeCloud Discovery feature is served across two SaaS hosts:
+Idira's PrivilegeCloud Discovery feature manages scans (scan definitions, scan resources, scan instances) on its own SaaS host:
 
-- `https://<subdomain>.discoverymgmt.cyberark.cloud` - scan definitions, scan resources, scan instances
-- `https://<subdomain>.privilegecloud.cyberark.cloud` - discovered accounts, remediation rule sets
+- `https://<subdomain>.discoverymgmt.cyberark.cloud`
 
 These functions were originally developed in [psPAS](https://github.com/pspete/psPAS), but as this is a
-SaaS-only capability with its own hosts, separate from psPAS's PVWA/ISPSS-oriented session, they have been
+SaaS-only capability with its own host, separate from psPAS's PVWA/ISPSS-oriented session, they have been
 migrated into this standalone module - following the same pattern as
 [IdentityCommand.DPA](https://github.com/pspete/IdentityCommand.DPA).
+
+[psPAS](https://github.com/pspete/psPAS) covers the discovered accounts and remediation rule sets, which are served by Privilege Cloud.

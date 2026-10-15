@@ -85,7 +85,7 @@ function Get-DMDiscoveryScanDefinition {
     process {
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/scan-definitions"
+        $URI = "$(Resolve-RequestUrl)/api/scan-definitions"
 
         switch ($PSCmdlet.ParameterSetName) {
 

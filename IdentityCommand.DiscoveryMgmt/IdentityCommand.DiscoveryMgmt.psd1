@@ -72,7 +72,6 @@
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
-        'Connect-DMTenant',
         'Add-DMDiscoveryScanDefinition',
         'Get-DMDiscoveryScanDefinition',
         'Remove-DMDiscoveryScanDefinition',
@@ -83,18 +82,7 @@
         'New-DMDiscoveryScanResourceMachineObject',
         'Start-DMDiscoveryScan',
         'Get-DMDiscoveryScan',
-        'Get-DMDiscoveryScanLog',
-        'Get-DMRemediationRuleSet',
-        'Remove-DMRemediationRuleSet',
-        'Add-DMDiscoveredLocalAccount',
-        'Get-DMDiscoveredLocalAccount',
-        'Remove-DMDiscoveredLocalAccount',
-        'Clear-DMDiscoveredLocalAccount',
-        'Test-DMDiscoveredLocalAccount',
-        'Get-DMDiscoveredLocalAccountActivity',
-        'Publish-DMDiscoveredLocalAccount',
-        'New-DMDiscoveredAccountObject',
-        'Get-DMDiscoveredAccountTypeMap'
+        'Get-DMDiscoveryScanLog'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.

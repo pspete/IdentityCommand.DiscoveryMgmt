@@ -12,7 +12,7 @@ function Get-DMDiscoveryScan {
     process {
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/scan-instances/$id"
+        $URI = "$(Resolve-RequestUrl)/api/scan-instances/$id"
 
         #Send request to web service
         $result = Invoke-IDRestMethod -Uri $URI -Method GET
