@@ -155,7 +155,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=name%20-%20desc'
+                    $URI -match 'sort=name%20desc'
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -166,7 +166,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=creationTime%20-%20desc'
+                    $URI -match 'sort=creationTime%20desc'
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -177,7 +177,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=name%20-%20asc'
+                    $URI -match 'sort=name%20asc'
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -194,7 +194,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=lastInstanceStatus%20-%20asc'
+                    $URI -match 'sort=lastInstanceStatus%20asc'
 
                 } -Times 1 -Exactly -Scope It
             }

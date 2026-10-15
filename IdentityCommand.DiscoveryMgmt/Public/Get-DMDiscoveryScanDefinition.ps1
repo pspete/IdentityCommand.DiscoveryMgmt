@@ -123,7 +123,7 @@ function Get-DMDiscoveryScanDefinition {
                     }
 
                     #Append sort direction to sort property for correct query string creation
-                    $PSBoundParameters['sort'] = "$sortProperty - $direction"
+                    $PSBoundParameters['sort'] = "$sortProperty $direction"
 
                 }
 
