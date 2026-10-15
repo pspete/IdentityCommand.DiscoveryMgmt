@@ -130,12 +130,12 @@ function Get-DMDiscoveryScanDefinition {
                 #Get Parameters to include in request
                 $boundParameters = $PSBoundParameters | Get-Parameter -ParametersToRemove ($Parameters + 'sortDirection')
                 $filterParameters = $PSBoundParameters | Get-Parameter -ParametersToKeep $Parameters
-                $FilterString = $filterParameters | ConvertTo-FilterString
+                $FilterString = ConvertTo-DMFilterString -Filter $filterParameters
 
                 # Append filter string if present
                 if ($null -ne $FilterString) {
 
-                    $boundParameters = $boundParameters + $FilterString
+                    $boundParameters['filter'] = $FilterString
 
                 }
 
