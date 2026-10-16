@@ -21,8 +21,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
         $Script:RequestBody = $null
         $ISPSSSession = [ordered]@{
-            discoverymgmt_url  = 'https://sometenant.discoverymgmt.cyberark.cloud'
-            privilegecloud_url = 'https://sometenant.privilegecloud.cyberark.cloud'
+            tenant_url         = 'https://sometenant.discoverymgmt.cyberark.cloud'
             User               = $null
             WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
             StartTime          = $null
@@ -32,7 +31,10 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
             LastCommandResults = $null
         }
 
-        New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+        InModuleScope $ModuleName -Parameters @{ Session = $ISPSSSession } {
+            param($Session)
+            New-Variable -Name ISPSSSession -Value $Session -Scope Script -Force
+        }
 
     }
 
@@ -91,7 +93,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:ISPSSSession.discoverymgmt_url)/api/scan-definitions/99_9"
+                    $URI -eq "$($Script:ISPSSSession.tenant_url)/api/scan-definitions/99_9"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -103,7 +105,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:ISPSSSession.discoverymgmt_url)/api/scan-definitions"
+                    $URI -eq "$($Script:ISPSSSession.tenant_url)/api/scan-definitions"
 
                 } -Times 1 -Exactly -Scope It
 
@@ -131,7 +133,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:ISPSSSession.discoverymgmt_url)/api/scan-definitions?filter=type%20eq%20SomeType"
+                    $URI -eq "$($Script:ISPSSSession.tenant_url)/api/scan-definitions?filter=type%20eq%20SomeType"
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -142,7 +144,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -eq "$($Script:ISPSSSession.discoverymgmt_url)/api/scan-definitions?search=SomeTerm"
+                    $URI -eq "$($Script:ISPSSSession.tenant_url)/api/scan-definitions?search=SomeTerm"
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -153,7 +155,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=name%20-%20desc'
+                    $URI -match 'sort=name%20desc'
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -164,7 +166,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=creationTime%20-%20desc'
+                    $URI -match 'sort=creationTime%20desc'
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -175,7 +177,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=name%20-%20asc'
+                    $URI -match 'sort=name%20asc'
 
                 } -Times 1 -Exactly -Scope It
             }
@@ -192,7 +194,7 @@ Describe $($PSCommandPath -replace '.Tests.ps1') {
 
                 Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
 
-                    $URI -match 'sort=lastInstanceStatus%20-%20asc'
+                    $URI -match 'sort=lastInstanceStatus%20asc'
 
                 } -Times 1 -Exactly -Scope It
             }

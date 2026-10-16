@@ -137,7 +137,7 @@ function Set-DMDiscoveryScanDefinition {
         }
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/scan-definitions/$id"
+        $URI = "$(Resolve-RequestUrl)/api/scan-definitions/$id"
 
         #Create Request Body
         $Body = $BoundParameters | ConvertTo-Json -Depth 10

@@ -12,7 +12,7 @@ function Remove-DMDiscoveryScanDefinition {
     process {
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/scan-definitions/$id"
+        $URI = "$(Resolve-RequestUrl)/api/scan-definitions/$id"
 
         if ($PSCmdlet.ShouldProcess($id, 'Remove Scan Definition')) {
 

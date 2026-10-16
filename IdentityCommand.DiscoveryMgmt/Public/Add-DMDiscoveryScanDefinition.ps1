@@ -73,7 +73,7 @@ function Add-DMDiscoveryScanDefinition {
     process {
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/scan-definitions"
+        $URI = "$(Resolve-RequestUrl)/api/scan-definitions"
 
         #Get bound parameters to include in request
         $BoundParameters = $PSBoundParameters | Get-Parameter

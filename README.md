@@ -2,17 +2,34 @@
 
 **IdentityCommand.DiscoveryMgmt** is a PowerShell module that provides a set of easy-to-use commands, allowing you to interact with the API for **CyberArk Privilege Cloud Discovery** (scan definitions, scan resources, scan instances, remediation rule sets, and discovered accounts) from within the PowerShell environment.
 
+| Main Branch              | CodeFactor                 | Coverage                     | PowerShell Gallery        | License                      |
+| ------------------------ | -------------------------- | ---------------------------- | ------------------------- | ---------------------------- |
+| [![build][]][build-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![psgallery][]][ps-site] | [![license][]][license-link] |
+
+[build]: https://github.com/pspete/IdentityCommand.DiscoveryMgmt/actions/workflows/ci.yml/badge.svg?branch=main&event=push
+[build-site]: https://github.com/pspete/IdentityCommand.DiscoveryMgmt/actions/workflows/ci.yml?query=branch%3Amain
+[psgallery]: https://img.shields.io/powershellgallery/v/IdentityCommand.DiscoveryMgmt.svg
+[ps-site]: https://www.powershellgallery.com/packages/IdentityCommand.DiscoveryMgmt
+[downloads]: https://img.shields.io/powershellgallery/dt/IdentityCommand.DiscoveryMgmt.svg?color=blue
+[cf-site]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.DiscoveryMgmt
+[codefactor]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.DiscoveryMgmt/badge
+[codecov]: https://codecov.io/gh/pspete/IdentityCommand.DiscoveryMgmt/branch/main/graph/badge.svg
+[codecov-link]: https://codecov.io/gh/pspete/IdentityCommand.DiscoveryMgmt
+[license]: https://img.shields.io/github/license/pspete/IdentityCommand.DiscoveryMgmt.svg
+[license-link]: https://github.com/pspete/IdentityCommand.DiscoveryMgmt/blob/main/LICENSE
+
 ## Background
 
-CyberArk's PrivilegeCloud Discovery feature is served across two SaaS hosts:
+CyberArk's PrivilegeCloud Discovery feature manages scans (scan definitions, scan resources, scan instances) on its own SaaS host:
 
-- `https://<subdomain>.discoverymgmt.cyberark.cloud` - scan definitions, scan resources, scan instances
-- `https://<subdomain>.privilegecloud.cyberark.cloud` - discovered accounts, remediation rule sets
+- `https://<subdomain>.discoverymgmt.cyberark.cloud`
 
 These functions were originally developed in [psPAS](https://github.com/pspete/psPAS), but as this is a
-SaaS-only capability with its own hosts, separate from psPAS's PVWA/ISPSS-oriented session, they have been
+SaaS-only capability with its own host, separate from psPAS's PVWA/ISPSS-oriented session, they have been
 migrated into this standalone module - following the same pattern as
-[IdentityCommand.DPA](https://github.com/pspete/IdentityCommand.DPA).
+[IdentityCommand.SIA](https://github.com/pspete/IdentityCommand.SIA) and the other IdentityCommand.\* companion modules.
+
+[psPAS](https://github.com/pspete/psPAS) covers the discovered accounts and remediation rule sets, which are served by Privilege Cloud.
 
 ## Using the Module
 
@@ -22,41 +39,35 @@ The `IdentityCommand` module must be installed and available in order to use `Id
 
 ### Authentication
 
-After authentication to an Identity tenant using the `IdentityCommand` module, the `Connect-DMTenant` command is used to initialise the session for module operations against the Discovery services:
+Authenticate with the `IdentityCommand` module, using `New-IDSession` (interactive user, including any MFA challenges) or `New-IDPlatformToken` (non-interactive service user). Commands find the Discovery Management and Privilege Cloud service urls from the Identity session on first use - no separate connection step is needed:
 
 ```powershell
-Connect-DMTenant -subdomain sometenant
+# Interactive user authentication
+New-IDSession -subdomain sometenant -Credential $Credential
+
+# Or non-interactive service user authentication via an OAuth platform token
+New-IDPlatformToken -subdomain sometenant -Credential $ServiceUserCredential
+
+Get-DMDiscoveryScanDefinition
 ```
 
-This targets `https://sometenant.discoverymgmt.cyberark.cloud` and `https://sometenant.privilegecloud.cyberark.cloud` for subsequent module operations.
+Commands follow the current Identity session: a later `New-IDSession` or `New-IDPlatformToken` is used by the next command, and after `Close-IDSession` commands fail until you authenticate again.
 
 ## List Of Commands
 
-| Function                                  | Description                                                          |
-|--------------------------------------------|------------------------------------------------------------------------|
-| `Connect-DMTenant`                        | Obtains a Bearer token from an authenticated `IdentityCommand` session |
-| `Add-DMDiscoveryScanDefinition`           | Adds a new discovery scan definition                                   |
-| `Get-DMDiscoveryScanDefinition`           | Get scan definitions and their details                                 |
-| `Remove-DMDiscoveryScanDefinition`        | Delete a scan definition                                                |
-| `Set-DMDiscoveryScanDefinition`           | Updates an existing discovery scan definition                           |
-| `Add-DMDiscoveryScanResource`             | Defines a new discovery scan resource                                   |
-| `Get-DMDiscoveryScanResource`             | Get scan resource details                                               |
-| `New-DMDiscoveryScanResourceCloudObject`  | Creates a cloud infrastructure scan resource content object             |
-| `New-DMDiscoveryScanResourceMachineObject`| Creates a machine list entry object for a scan resource                 |
-| `Start-DMDiscoveryScan`                   | Starts a discovery scan                                                 |
-| `Get-DMDiscoveryScan`                     | Get scan instance details                                               |
-| `Get-DMDiscoveryScanLog`                  | Get scan instance logs URL                                              |
-| `Get-DMRemediationRuleSet`                | Get information about remediation rule sets                             |
-| `Remove-DMRemediationRuleSet`             | Delete a remediation rule set                                           |
-| `Add-DMDiscoveredLocalAccount`            | Add a discovered local endpoint account to the Discovered Accounts list |
-| `Get-DMDiscoveredLocalAccount`            | List discovered unmanaged local Windows, macOS, and Linux accounts      |
-| `Remove-DMDiscoveredLocalAccount`         | Delete a discovered local account                                       |
-| `Clear-DMDiscoveredLocalAccount`          | Deletes all discovered local endpoint accounts                          |
-| `Test-DMDiscoveredLocalAccount`           | Check discovered account existence                                      |
-| `Get-DMDiscoveredLocalAccountActivity`    | Get discovery rule activities of a discovered account                   |
-| `Publish-DMDiscoveredLocalAccount`        | Onboard a discovered local account                                      |
-| `New-DMDiscoveredAccountObject`           | Creates a discovered account object for use with `Test-DMDiscoveredLocalAccount` |
-| `Get-DMDiscoveredAccountTypeMap`          | Returns reference data describing identifiers expected per account Type/SubType |
+| Function                                   | Description                                                 |
+| ------------------------------------------ | ----------------------------------------------------------- |
+| `Add-DMDiscoveryScanDefinition`            | Adds a new discovery scan definition                        |
+| `Get-DMDiscoveryScanDefinition`            | Get scan definitions and their details                      |
+| `Remove-DMDiscoveryScanDefinition`         | Delete a scan definition                                    |
+| `Set-DMDiscoveryScanDefinition`            | Updates an existing discovery scan definition               |
+| `Add-DMDiscoveryScanResource`              | Defines a new discovery scan resource                       |
+| `Get-DMDiscoveryScanResource`              | Get scan resource details                                   |
+| `New-DMDiscoveryScanResourceCloudObject`   | Creates a cloud infrastructure scan resource content object |
+| `New-DMDiscoveryScanResourceMachineObject` | Creates a machine list entry object for a scan resource     |
+| `Start-DMDiscoveryScan`                    | Starts a discovery scan                                     |
+| `Get-DMDiscoveryScan`                      | Get scan instance details                                   |
+| `Get-DMDiscoveryScanLog`                   | Get scan instance logs URL                                  |
 
 ## Installation
 

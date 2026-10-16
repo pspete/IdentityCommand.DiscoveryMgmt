@@ -32,7 +32,7 @@ function Add-DMDiscoveryScanResource {
     process {
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/discovery-scans/resources"
+        $URI = "$(Resolve-RequestUrl)/api/discovery-scans/resources"
 
         #Get bound parameters to include in request
         $BoundParameters = $PSBoundParameters | Get-Parameter

@@ -12,7 +12,7 @@ function Start-DMDiscoveryScan {
     process {
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/scan-instances"
+        $URI = "$(Resolve-RequestUrl)/api/scan-instances"
 
         $Body = $PSBoundParameters | Get-Parameter | ConvertTo-Json
 

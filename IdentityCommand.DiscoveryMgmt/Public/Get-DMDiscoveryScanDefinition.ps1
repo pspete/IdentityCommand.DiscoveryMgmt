@@ -85,7 +85,7 @@ function Get-DMDiscoveryScanDefinition {
     process {
 
         #Create URL for Request
-        $URI = "$($ISPSSSession.discoverymgmt_url)/api/scan-definitions"
+        $URI = "$(Resolve-RequestUrl)/api/scan-definitions"
 
         switch ($PSCmdlet.ParameterSetName) {
 
@@ -123,19 +123,19 @@ function Get-DMDiscoveryScanDefinition {
                     }
 
                     #Append sort direction to sort property for correct query string creation
-                    $PSBoundParameters['sort'] = "$sortProperty - $direction"
+                    $PSBoundParameters['sort'] = "$sortProperty $direction"
 
                 }
 
                 #Get Parameters to include in request
                 $boundParameters = $PSBoundParameters | Get-Parameter -ParametersToRemove ($Parameters + 'sortDirection')
                 $filterParameters = $PSBoundParameters | Get-Parameter -ParametersToKeep $Parameters
-                $FilterString = $filterParameters | ConvertTo-FilterString
+                $FilterString = ConvertTo-DMFilterString -Filter $filterParameters
 
                 # Append filter string if present
                 if ($null -ne $FilterString) {
 
-                    $boundParameters = $boundParameters + $FilterString
+                    $boundParameters['filter'] = $FilterString
 
                 }
 
