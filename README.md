@@ -19,7 +19,7 @@
 [codefactor]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.DiscoveryMgmt/badge
 [codecov]: https://codecov.io/gh/pspete/IdentityCommand.DiscoveryMgmt/branch/main/graph/badge.svg
 [codecov-link]: https://codecov.io/gh/pspete/IdentityCommand.DiscoveryMgmt
-[license]: https://img.shields.io/github/license/pspete/IdentityCommand.DiscoveryMgmt.svg
+[license]: https://img.shields.io/badge/license-MIT-green.svg
 [license-link]: https://github.com/pspete/IdentityCommand.DiscoveryMgmt/blob/main/LICENSE
 
 ## Background
